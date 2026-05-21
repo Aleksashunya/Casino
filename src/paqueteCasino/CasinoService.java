@@ -20,6 +20,37 @@ public class CasinoService {
 				"¿Qué quieres hacer, " + nombre + "?" + "\n" + "Tu saldo: $" + saldo, "Casino de " + nombre,
 				JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
 	}
+	
+	
+	// ── Menú de Administrador
+	// ──────────────────────────────────────────────────────────────────
+	
+	public String preguntarPasoAdministrador(Integer saldoCasino) {
+
+	    Object[] opciones = {
+	        "Ver saldo casino",
+	        "Ingresar dinero casino",
+	        "Retirar dinero casino",
+	        "Ver préstamos",
+	        "Ver préstamo máximo",
+            "Cambiar préstamo máximo",
+	        "Ver estadisticas",
+	        "Ver historial"
+	    };
+
+	    return (String) JOptionPane.showInputDialog(
+            null,
+            "¿Qué quieres hacer Administrador?"
+            + "\n"
+            + "Saldo Casino: $"
+            + saldoCasino,
+            "Panel Administrador",
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opciones,
+            opciones[0]
+	    );
+	}
 
 	public Jugador crearJugador(Integer id) {
 		String login = "";

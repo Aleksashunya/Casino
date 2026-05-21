@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 public class Casino {
 	public static void main(String[] args) {
 		CasinoService service = new CasinoService();
+		CasinoData casinoData = new CasinoData(10000, 500);
+		
 		CaballoJuego caballoJuego = new CaballoJuego();
 
 		Set<Jugador> jugadores = new HashSet<>();
@@ -44,32 +46,84 @@ public class Casino {
 				Usuario usuarioDeLogin = service.login(totalUsuarios);
 
 				if (usuarioDeLogin != null) {
-					usuarioLoginSuccessId = usuarioDeLogin.getId();
+					
+					if (usuarioDeLogin.getTipo() == "Administrador") {
+						 boolean deseaOtraOperacionAdmin = true;
 
-					Jugador jugadorCurrent = service.getJugador(jugadores, usuarioLoginSuccessId);
+	                    while (deseaOtraOperacionAdmin) {
 
-					if (jugadorCurrent != null) {
-						boolean deseaOtraOperacionJugador = true;
+	                        String pasoAdmin = service.preguntarPasoAdministrador(casinoData.getSaldoCasino());
+	                        if (pasoAdmin == null) {
+	                            deseaOtraOperacionAdmin = false;
+	                            break;
+	                        }
 
-						while (deseaOtraOperacion) {
-							String pasoJugador = service.preguntarPasoJugador(jugadorCurrent.getNombre(),
-									jugadorCurrent.getSaldo());
+	                        switch (pasoAdmin) {
+	                        case "Ver saldo casino":
+	                            administrador.verSaldoCasino(casinoData);
+	                            break;
 
-							if (pasoJugador == null) {
-								deseaOtraOperacionJugador = false;
+	                        case "Ingresar dinero casino":
+	                            administrador.ingresarDineroCasino(casinoData);
+	                            break;
+
+	                        case "Retirar dinero casino":
+	                            administrador.retirarDineroCasino(casinoData);
+	                            break;
+	                            
+	                        case "Ver préstamos":
+	                        	administrador.verPrestamos(casinoData);
+	                            break;
+	                            
+	                        case "Ver préstamo máximo":
+	                            administrador.verMaxPrestamo(casinoData);
+	                            break;
+	                            
+	                        case "Cambiar préstamo máximo":
+	                            administrador.cambiarMaxPrestamo(casinoData);
+	                            break;
+
+
+	                        case "Ver estadisticas":
+	                            administrador.verEstadisticas(casinoData);
+	                            break;
+
+	                        case "Ver historial":
+	                            administrador.verHistorial(casinoData);
+	                            break;
+	                            
+	                        default:
 								break;
-							}
+	                        }
+	                    }
+					} else {
+						usuarioLoginSuccessId = usuarioDeLogin.getId();
 
-							switch (pasoJugador) {
-							case "Cerrar Session":
-								deseaOtraOperacionJugador = false;
-								break;
-							case "Jugar caballo":
-								jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() - 10);
-								jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() + caballoJuego.jugar(10));
-								break;
-							default:
-								break;
+						Jugador jugadorCurrent = service.getJugador(jugadores, usuarioLoginSuccessId);
+
+						if (jugadorCurrent != null) {
+							boolean deseaOtraOperacionJugador = true;
+
+							while (deseaOtraOperacion) {
+								String pasoJugador = service.preguntarPasoJugador(jugadorCurrent.getNombre(),
+										jugadorCurrent.getSaldo());
+
+								if (pasoJugador == null) {
+									deseaOtraOperacionJugador = false;
+									break;
+								}
+
+								switch (pasoJugador) {
+								case "Cerrar Session":
+									deseaOtraOperacionJugador = false;
+									break;
+								case "Jugar caballo":
+									jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() - 10);
+									jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() + caballoJuego.jugar(10));
+									break;
+								default:
+									break;
+								}
 							}
 						}
 					}
