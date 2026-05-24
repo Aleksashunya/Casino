@@ -118,8 +118,11 @@ public class Casino {
 									deseaOtraOperacionJugador = false;
 									break;
 								case "Jugar caballo":
-									jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() - 10);
-									jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() + caballoJuego.jugar(10));
+									Integer apuesta = jugadorCurrent.hacerApuesta(10);
+									if (apuesta != null) {
+										jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() - apuesta);
+										jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() + caballoJuego.jugar(apuesta));
+									}
 									break;
 								default:
 									break;
