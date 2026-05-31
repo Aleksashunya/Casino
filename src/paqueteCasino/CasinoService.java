@@ -15,7 +15,7 @@ public class CasinoService {
 	// ── Menú de Jugador
 	// ──────────────────────────────────────────────────────────────────
 	public String preguntarPasoJugador(String nombre, Integer saldo) {
-		Object[] opciones = { "Jugar caballo", "Cerrar Session" };
+		Object[] opciones = { "Jugar caballo",  "Jugar tragamonedas", "Solicitar préstamo", "Pagar préstamo", "Cerrar Session" };
 		return (String) JOptionPane.showInputDialog(null,
 				"¿Qué quieres hacer, " + nombre + "?" + "\n" + "Tu saldo: $" + saldo, "Casino de " + nombre,
 				JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);

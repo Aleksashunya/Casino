@@ -1,6 +1,4 @@
 package paqueteCasino;
-import java.util.List;
-
 import javax.swing.JOptionPane;
 
 public class Administrador extends Usuario {

@@ -62,4 +62,78 @@ public class Jugador extends Usuario {
 	public String toString() {
 		return "Usuario [id=" + getId() + ", nombre=" + nombre  + ", saldo= $" + saldo + "]";
 	}
+	
+	
+	public void pedirPrestamo(CasinoData casinoData) {
+
+	    String input = JOptionPane.showInputDialog(
+	        null,
+	        "Monto del préstamo:"
+	    );
+
+	    if (input == null) {
+	        return;
+	    }
+
+	    try {
+
+	        Integer monto = Integer.parseInt(input);
+
+	        if (monto <= 0) {
+	            JOptionPane.showMessageDialog(
+	                null,
+	                "Monto inválido"
+	            );
+	            return;
+	        }
+
+	        casinoData.crearPrestamo(this, monto);
+
+	    } catch (NumberFormatException e) {
+
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Valor inválido"
+	        );
+	    }
+	}
+	
+	public void pagarPrestamo(CasinoData casinoData) {
+
+	    String input = JOptionPane.showInputDialog(
+	        null,
+	        "\nMonto a pagar:"
+	    );
+
+	    if (input == null) {
+	        return;
+	    }
+
+	    try {
+
+	        Integer monto = Integer.parseInt(input);
+
+	        if (monto <= 0) {
+
+	            JOptionPane.showMessageDialog(
+	                null,
+	                "Monto inválido"
+	            );
+
+	            return;
+	        }
+
+	        casinoData.pagarPrestamo(
+	            this,
+	            monto
+	        );
+
+	    } catch (NumberFormatException e) {
+
+	        JOptionPane.showMessageDialog(
+	            null,
+	            "Valor inválido"
+	        );
+	    }
+	}
 }

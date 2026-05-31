@@ -7,10 +7,12 @@ import javax.swing.JOptionPane;
 
 public class Casino {
 	public static void main(String[] args) {
+		
 		CasinoService service = new CasinoService();
 		CasinoData casinoData = new CasinoData(10000, 500);
 		
 		CaballoJuego caballoJuego = new CaballoJuego();
+		Tragamonedas tragamonedas = new Tragamonedas();
 
 		Set<Jugador> jugadores = new HashSet<>();
 		Administrador administrador = new Administrador(0, "login", "password");
@@ -124,6 +126,31 @@ public class Casino {
 										jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() + caballoJuego.jugar(apuesta));
 									}
 									break;
+									
+								case "Jugar tragamonedas":
+
+								    Integer apuestaTragamonedas = jugadorCurrent.hacerApuesta(10);
+
+								    if (apuestaTragamonedas != null) {
+								        jugadorCurrent.setSaldo(jugadorCurrent.getSaldo() - apuestaTragamonedas);
+
+								        Integer premio = tragamonedas.jugar(apuestaTragamonedas);
+
+								        jugadorCurrent.setSaldo(jugadorCurrent.getSaldo()  + premio);
+
+								        casinoData.registrarJuego(jugadorCurrent.getNombre(), "Tragamonedas", apuestaTragamonedas, premio);
+								    }
+
+								    break;
+									
+								case "Solicitar préstamo":
+								    jugadorCurrent.pedirPrestamo(casinoData);
+								    break;
+								    
+								case "Pagar préstamo":
+								    jugadorCurrent.pagarPrestamo(casinoData);
+								    break;
+								    
 								default:
 									break;
 								}

@@ -79,15 +79,16 @@ public class CasinoData {
                 + prestamo.getJugador()
                 .getNombre()
 
-                + "\nSaldo Jugador: $"
+                + ", Saldo Jugador: $"
                 + prestamo.getJugador()
                 .getSaldo()
 
-                + "\nDeuda Actual: $"
+                + ", Deuda Actual: $"
                 + prestamo.getSaldo()
 
-                + "\nPagado: "
+                + ", Pagado: "
                 + prestamo.getPagado()
+                + "\n"
             );
         }
         
@@ -101,12 +102,26 @@ public class CasinoData {
             JOptionPane.showMessageDialog(null,"Casino sin dinero");
             return;
         }
-
-        Prestamo prestamo = new Prestamo(jugador, monto);
+        
+        Prestamo prestamo = getPrestamo(jugador);
+        
+        if(prestamo != null && prestamo.getSaldo() + monto > maxValorPrestamo) {
+        	 JOptionPane.showMessageDialog(null, "Supera préstamo máximo");
+        	 return;
+        }
+        
+        if(prestamo != null) {
+        	prestamo.aumentarPrestamo(monto, maxValorPrestamo);
+        	
+        } else {
+        	
+        prestamo = new Prestamo(jugador, monto);
         prestamos.add(prestamo);
+        jugador.setSaldo(jugador.getSaldo() + monto);
+        }
         saldoCasino -= monto;
 
-        historiaList.add("Prestamo nuevo: " + prestamo);
+        historiaList.add("Prestamo nuevo: " +  jugador.getNombre() + " | Monto: $" + monto);
 
         JOptionPane.showMessageDialog(null, "Prestamo aprobado");
     }
@@ -148,6 +163,7 @@ public class CasinoData {
         
         prestamo.disminuirPrestamo(montoPago);
         saldoCasino += montoPago;
+//        jugador.setSaldo(jugador.getSaldo() - montoPago);
         
         if (prestamo.getSaldo() == 0) {
         	 JOptionPane.showMessageDialog(null, "Prestamo pagado completo");
